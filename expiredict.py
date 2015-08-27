@@ -37,7 +37,8 @@ class ExpireDict(OrderedDict):
         try:
             with self.lock:
                 item = OrderedDict.__getitem__(self, key)
-                if time.time() - item[1] < self.max_age:
+                expire_time = self.key_time_map[key].get('expire_time',None)
+                if expire_time and expire_time >0:
                     return True
                 else:
                     del self[key]
@@ -68,7 +69,6 @@ class ExpireDict(OrderedDict):
             if len(self) == self.max_len:
                 self.popitem(last=False)
             OrderedDict.__setitem__(self, key,value)
-            #self.key_time_map[key] = {"time":time.time(),"max_age":0}
             self.key_time_map[key] = {}
 
     def pop(self, key, default=None):
@@ -89,9 +89,9 @@ class ExpireDict(OrderedDict):
 
         Returns None for non-existent or expired keys.
         """
-        key_age = self.key_time_map.get(key,None)
-        if key_age:
-            key_ttl = self.max_age - key_age
+        expire_time = self.key_time_map[key].get('expire_time',None)
+        if expire_time:
+            key_ttl = expire_time - time.time()
             if key_ttl > 0:
                 return key_ttl
         return None
