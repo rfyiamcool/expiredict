@@ -1,14 +1,16 @@
 #coding:utf-8
 '''
->>> ExpireDict(max_len=100)
+
+>>> d = ExpireDict(100)
 
 The values stored in the following way:
 {
-    key1: (value1, created_time1),
-    key2: (value2, created_time2)
+    key1: value1,
+}
+{
+    key1: {"expire_time":created_time1},
 }
 
-NOTE: iteration over dict and also keys() do not remove expired values!
 '''
 
 import time
