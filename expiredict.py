@@ -23,12 +23,10 @@ except ImportError:
 
 class ExpireDict(OrderedDict):
     def __init__(self, max_len=0):
-        assert max_age_seconds >= 0
         assert max_len >= 1
 
         OrderedDict.__init__(self)
         self.max_len = max_len
-#        self.max_age = max_age_seconds
         self.key_time_map = {}
         self.lock = RLock()
 
@@ -53,7 +51,9 @@ class ExpireDict(OrderedDict):
         """
         with self.lock:
             item = OrderedDict.__getitem__(self, key)
-            item_age = time.time() - (self.key_time_map[key].get('expire_time',0)
+            if not self.key_time_map.get(key,None):
+                return item
+            item_age = time.time() - (self.key_time_map[key].get('expire_time',0))
             if item_age < 0:
                 if with_age:
                     return item[0], item_age
