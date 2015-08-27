@@ -77,6 +77,9 @@ class ExpireDict(OrderedDict):
             OrderedDict.__setitem__(self, key,value)
             self.key_time_map[key] = {}
 
+    def __llen__(self, key):
+        return len(OrderedDict.__setitem__(self, key,value))
+
     def pop(self, key, default=None):
         """ Get item from the dict and remove it.
 
@@ -89,6 +92,18 @@ class ExpireDict(OrderedDict):
                 return item
             except KeyError:
                 return default
+
+    def clear(self):
+        """ 
+            clear all keys and keys in key_time_map
+        """
+        with self.lock:
+            try:
+                OrderedDict.clear(self)
+                self.key_time_map.clear()
+                return True
+            except KeyError:
+                return False
 
     def ttl(self, key):
         """ Return TTL of the `key` (in seconds).
@@ -150,17 +165,16 @@ class ExpireDict(OrderedDict):
         return OrderedDict.keys(self)
 
     def iteritems(self):
-        raise NotImplementedError()
+        """ support iteritems"""
+        return OrderedDict.keys(self)
 
     def itervalues(self):
-        raise NotImplementedError()
+        return OrderedDict.keys(self)
 
     def viewitems(self):
-        " Return a new view of the dictionary's items ((key, value) pairs). "
         raise NotImplementedError()
 
     def viewkeys(self):
-        """ Return a new view of the dictionary's keys. """
         raise NotImplementedError()
 
     def viewvalues(self):

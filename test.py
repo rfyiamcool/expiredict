@@ -1,7 +1,11 @@
+#coding:utf-8
 import time 
 
 from expiredict import ExpireDict
 d = ExpireDict(10)
+d['a'] = 'abc'
+print d.clear()
+print "clear data :%s"%d.keys()
 d['a'] = 'abc'
 print "dict length :%s"%len(d)
 print "d.keys() : %s"%d.keys()
