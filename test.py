@@ -3,6 +3,7 @@ import time
 from expiredict import ExpireDict
 d = ExpireDict(10)
 d['a'] = 'abc'
+print "dict length :%s"%len(d)
 print "d.keys() : %s"%d.keys()
 d.set_ttl('a',2)
 print d.ttl('a')
