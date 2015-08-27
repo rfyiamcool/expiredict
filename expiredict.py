@@ -88,8 +88,17 @@ class ExpireDict(OrderedDict):
         with self.lock:
             try:
                 item = OrderedDict.__getitem__(self, key)
-                del self[key]
-                return item
+                expire_time = self.key_time_map.get(key,{}).get('expire_time',None)
+                if not expire_time:
+                    del self[key]
+                    del self.key_time_map[key]
+                    return item
+                
+                if expire_time - time.time() >0:
+                    del self[key]
+                    return item
+                return default
+                        
             except KeyError:
                 return default
 
