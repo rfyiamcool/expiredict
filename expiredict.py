@@ -1,5 +1,6 @@
+#coding:utf-8
 '''
->>> ExpiringDict(max_len=100, max_age_seconds=10)
+>>> ExpireDict(max_len=100)
 
 The values stored in the following way:
 {
@@ -21,7 +22,7 @@ except ImportError:
 
 
 class ExpireDict(OrderedDict):
-    def __init__(self, max_len=0,all_expire=True,signal_expire=False):
+    def __init__(self, max_len=0):
         assert max_age_seconds >= 0
         assert max_len >= 1
 
@@ -51,8 +52,8 @@ class ExpireDict(OrderedDict):
         """
         with self.lock:
             item = OrderedDict.__getitem__(self, key)
-            item_age = time.time() - item[1]
-            if item_age < self.max_age:
+            item_age = time.time() - (self.key_time_map[key].get('expire_time',0)
+            if item_age < 0:
                 if with_age:
                     return item[0], item_age
                 else:
@@ -67,7 +68,8 @@ class ExpireDict(OrderedDict):
             if len(self) == self.max_len:
                 self.popitem(last=False)
             OrderedDict.__setitem__(self, key,value)
-            self.key_time_map[key] = time.time()
+            #self.key_time_map[key] = {"time":time.time(),"max_age":0}
+            self.key_time_map[key] = {}
 
     def pop(self, key, default=None):
         """ Get item from the dict and remove it.
@@ -78,7 +80,7 @@ class ExpireDict(OrderedDict):
             try:
                 item = OrderedDict.__getitem__(self, key)
                 del self[key]
-                return item[0]
+                return item
             except KeyError:
                 return default
 
@@ -87,17 +89,19 @@ class ExpireDict(OrderedDict):
 
         Returns None for non-existent or expired keys.
         """
-        key_value, key_age = self.get(key, with_age=True)
+        key_age = self.key_time_map.get(key,None)
         if key_age:
             key_ttl = self.max_age - key_age
             if key_ttl > 0:
                 return key_ttl
         return None
 
-    def set_ttl(self, key,seconds):
-        key_value, key_age = self.get(key, with_age=True)
-        if key_age:
-            key_ttl = self.max_age - key_age
+    def set_ttl(self, key, seconds):
+        is_have = OrderedDict.__getitem__(self,key)
+        if is_have:
+            expire_time = time.time() + seconds
+            self.key_time_map[key] = {"time":time.time(),"max_age":0,"expire_time":expire_time}
+            key_ttl = expire_time - time.time()
             if key_ttl > 0:
                 return key_ttl
         return None
