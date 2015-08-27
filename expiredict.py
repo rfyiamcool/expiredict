@@ -50,11 +50,15 @@ class ExpireDict(OrderedDict):
         Raises a KeyError if key is not in the map.
         """
         with self.lock:
-            item = OrderedDict.__getitem__(self, key)
+            try:
+                item = OrderedDict.__getitem__(self, key)
+            except KeyError: 
+                raise KeyError(key)
+
             if not self.key_time_map.get(key,None):
                 return item
-            item_age = time.time() - (self.key_time_map[key].get('expire_time',0))
-            if item_age < 0:
+            item_age = (self.key_time_map[key].get('expire_time',0)) - time.time() 
+            if item_age > 0:
                 if with_age:
                     return item[0], item_age
                 else:
@@ -89,7 +93,7 @@ class ExpireDict(OrderedDict):
 
         Returns None for non-existent or expired keys.
         """
-        expire_time = self.key_time_map[key].get('expire_time',None)
+        expire_time = self.key_time_map.get(key,{}).get('expire_time',None)
         if expire_time:
             key_ttl = expire_time - time.time()
             if key_ttl > 0:
@@ -137,16 +141,16 @@ class ExpireDict(OrderedDict):
                 pass
         return r
 
+    def keys(self):
+        return OrderedDict.keys(self)
+
     def fromkeys(self):
-        " Create a new dictionary with keys from seq and values set to value. "
-        raise NotImplementedError()
+        return OrderedDict.keys(self)
 
     def iteritems(self):
-        """ Return an iterator over the dictionary's (key, value) pairs. """
         raise NotImplementedError()
 
     def itervalues(self):
-        """ Return an iterator over the dictionary's values. """
         raise NotImplementedError()
 
     def viewitems(self):
