@@ -8,6 +8,7 @@ python的一个小模块，支持时间过期及限制key个数的dict,涵盖所
 
 New Future
 1. support len
+
 2. support clear
 
 To Do List
@@ -15,6 +16,7 @@ To Do List
 
 ### 安装
 1. 源码安装
+
 ```
 git@github.com:rfyiamcool/expiredict.git
 python setup.py install
