@@ -13,6 +13,18 @@ New Future
 To Do List
 1. logging
 
+### 安装
+1. 源码安装
+```
+git@github.com:rfyiamcool/expiredict.git
+python setup.py install
+```
+2. pip 安装
+
+```
+pip install expiredict
+```
+
 ### 使用方法
 
 ```
