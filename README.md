@@ -7,12 +7,16 @@ python的一个小模块，支持时间过期及限制key个数的dict,涵盖所
 [expiredict 更多介绍](http://xiaorui.cc  "xiaorui.cc")
 
 New Future
+
 1. support len
 
 2. support clear
 
 To Do List
+
 1. logging
+
+.....
 
 ### 安装
 1. 源码安装
