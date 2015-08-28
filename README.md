@@ -2,7 +2,7 @@
 
 ### 介绍
 
-python的一个小模块，支持时间过期及map个数的dict,涵盖所有常用的dict方法。
+python的一个小模块，支持时间过期及限制key个数的dict,涵盖所有常用的dict方法。
 
 [expiredict 更多介绍](http://xiaorui.cc  "xiaorui.cc")
 
