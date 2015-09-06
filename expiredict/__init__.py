@@ -1,12 +1,13 @@
 #coding:utf-8
 '''
-
 >>> d = ExpireDict(100)
 
+map1: OrderedDict()
 The values stored in the following way:
 {
     key1: value1,
 }
+map2 : key_time_map
 {
     key1: {"expire_time":created_time1},
 }

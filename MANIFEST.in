@@ -1,2 +1,2 @@
-include  README.md
-recursive-include README.md
+include  README.md test.py
+recursive-include README.md test.py
