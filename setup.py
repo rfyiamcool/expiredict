@@ -6,7 +6,7 @@ import os.path
 
 setup(
     name='expiredict',
-    version='3.0',
+    version='3.1',
     description='Support Expire and Max length Dict',
     url='http://xiaorui.cc',
     author='ruifengyun',
@@ -16,6 +16,7 @@ setup(
     license = "MIT",
     keywords = "Expire ttl Dict Max Dict author fengyun",
     classifiers = [
+        'Development Status :: 4 - Beta',
         'Topic :: Utilities',
         'License :: OSI Approved :: MIT License'
         ]
