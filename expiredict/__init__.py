@@ -62,10 +62,10 @@ class ExpireDict(OrderedDict):
                 return item
             item_age = (self.key_time_map[key].get('expire_time',0)) - time.time() 
             if item_age > 0:
-            #    if with_age:
-            #    return item[0], item_age
-            #else:
-                return item
+                if with_age:
+                    return item, item_age
+                else:
+                    return item
             else:
                 del self[key]
                 raise KeyError(key)

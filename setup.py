@@ -6,7 +6,7 @@ import os.path
 
 setup(
     name='expiredict',
-    version='3.1',
+    version='3.2',
     description='Support Expire and Max length Dict',
     url='http://xiaorui.cc',
     author='ruifengyun',

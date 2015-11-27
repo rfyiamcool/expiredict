@@ -3,10 +3,9 @@ import time
 
 from expiredict import ExpireDict
 d = ExpireDict(10)
-d['a'] = 'abc'
-d['b'] = 'abc'
+d['a'] = 'aaa'
+d['b'] = 'bbb'
 print d.pop('b',123)
-print d
 print d.clear()
 print "clear data :%s"%d.keys()
 d['a'] = 'abc'
